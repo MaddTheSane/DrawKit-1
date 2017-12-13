@@ -46,7 +46,7 @@ This prefers PDF image representations where the image contains one, preserving 
 
 - (void)setImage:(NSImage*)image;
 - (NSImage*)image;
-@property (retain) NSImage *image;
+@property (strong) NSImage *image;
 - (void)setUpCache;
 - (void)setPDFImageRep:(NSPDFImageRep*)rep;
 

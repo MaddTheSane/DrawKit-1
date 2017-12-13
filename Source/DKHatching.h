@@ -140,8 +140,8 @@ doesn't change the cache.
 @property CGFloat width;
 @property NSLineCapStyle lineCapStyle;
 @property NSLineJoinStyle lineJoinStyle;
-@property (retain) NSColor *colour;
-@property (retain) DKStrokeDash *dash;
+@property (strong) NSColor *colour;
+@property (strong) DKStrokeDash *dash;
 @property CGFloat roughness;
 @property CGFloat wobblyness;
 @end

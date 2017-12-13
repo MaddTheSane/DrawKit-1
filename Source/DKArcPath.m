@@ -12,6 +12,7 @@
 #import "DKObjectDrawingLayer.h"
 #import "LogEvent.h"
 #import "DKDrawkitMacros.h"
+#import "DKShapeGroup.h"
 #include <tgmath.h>
 
 @interface DKArcPath (Private)
@@ -843,7 +844,7 @@ static CGFloat sAngleConstraint = 0.261799387799; // 15°
  */
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
-	[super initWithCoder:coder];
+	if (!(self = [super initWithCoder:coder])) return nil;
 	mStartAngle = [coder decodeDoubleForKey:@"DKArcPath_startAngle"];
 	mEndAngle = [coder decodeDoubleForKey:@"DKArcPath_endAngle"];
 	mRadius = [coder decodeDoubleForKey:@"DKArcPath_radius"];

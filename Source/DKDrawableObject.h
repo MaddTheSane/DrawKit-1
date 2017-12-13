@@ -173,10 +173,10 @@ to attach arbitrary data to any drawable object.
 
 // relationships:
 
-@property (readonly, retain) DKObjectOwnerLayer *layer;
-@property (readonly, retain) DKDrawing *drawing;
-@property (readonly, retain) NSUndoManager *undoManager;
-@property (nonatomic, assign) id<DKDrawableContainer> container;
+@property (readonly, strong) DKObjectOwnerLayer *layer;
+@property (readonly, strong) DKDrawing *drawing;
+@property (readonly, strong) NSUndoManager *undoManager;
+@property (nonatomic, unsafe_unretained) id<DKDrawableContainer> container;
 @property (readonly) NSUInteger indexInContainer;
 
 /** @brief Returns the layer that this object ultimately belongs to

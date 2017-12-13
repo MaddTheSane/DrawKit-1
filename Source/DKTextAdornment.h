@@ -143,8 +143,8 @@ other fixed content. See that class for details.
 
 @property (nonatomic) CGFloat textKnockoutDistance;
 @property CGFloat textKnockoutStrokeWidth;
-@property (retain) NSColor *textKnockoutColour;
-@property (retain) NSColor *textKnockoutStrokeColour;
+@property (strong) NSColor *textKnockoutColour;
+@property (strong) NSColor *textKnockoutStrokeColour;
 
 // modifying text when drawn:
 
@@ -169,13 +169,13 @@ other fixed content. See that class for details.
 - (CGFloat)fontSize;
 - (void)scaleTextBy:(CGFloat)factor;
 
-@property (retain) NSFont *font;
+@property (strong) NSFont *font;
 @property CGFloat fontSize;
 
 - (void)setColour:(NSColor*)colour;
 - (NSColor*)colour;
 
-@property (retain) NSColor *colour;
+@property (strong) NSColor *colour;
 
 - (void)setTextAttributes:(NSDictionary*)attrs;
 - (NSDictionary*)textAttributes;
@@ -214,10 +214,10 @@ other fixed content. See that class for details.
 - (void)setSuperscriptAttribute:(NSInteger)amount;
 - (NSInteger)superscriptAttribute;
 
-@property (retain) NSParagraphStyle*paragraphStyle;
+@property (strong) NSParagraphStyle*paragraphStyle;
 @property NSTextAlignment alignment;
-@property (retain) NSColor *backgroundColour;
-@property (retain) NSColor *outlineColour;
+@property (strong) NSColor *backgroundColour;
+@property (strong) NSColor *outlineColour;
 @property CGFloat outlineWidth;
 @property NSInteger underlines;
 @property CGFloat kerning;
@@ -239,7 +239,7 @@ other fixed content. See that class for details.
 - (void)setTextSubstitutor:(DKTextSubstitutor*)subs;
 - (DKTextSubstitutor*)textSubstitutor;
 
-@property (nonatomic, retain) DKTextSubstitutor*textSubstitutor;
+@property (nonatomic, strong) DKTextSubstitutor*textSubstitutor;
 
 - (BOOL)allTextWasFitted;
 

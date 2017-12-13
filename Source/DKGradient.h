@@ -273,7 +273,7 @@ typedef NS_ENUM(NSInteger, DKGradientInterpolation) {
 - (NSColor*)color;
 - (void)setColor:(NSColor*)aColor;
 
-@property (retain) NSColor *color;
+@property (strong) NSColor *color;
 
 /** @brief Set the alpha of the colour associated with this stop
  @param alpha the alpha to set

@@ -160,12 +160,6 @@ NSString* kDKRasterizerChangedPropertyKey = @"kDKRasterizerChangedPropertyKey";
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-    [m_name release];
-    [super dealloc];
-}
-
 - (instancetype)init
 {
     self = [super init];

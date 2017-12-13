@@ -270,7 +270,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 
 	[na sortUsingFunction:vertLocSortFunc
 				  context:nil];
-	return [na autorelease];
+	return na;
 }
 
 /** @brief Sorts a set of objects into order of their horizontal location
@@ -285,7 +285,7 @@ static NSInteger horizLocSortFunc(DKDrawableObject* a, DKDrawableObject* b, void
 
 	[na sortUsingFunction:horizLocSortFunc
 				  context:nil];
-	return [na autorelease];
+	return na;
 }
 
 #pragma mark -

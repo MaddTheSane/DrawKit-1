@@ -1108,8 +1108,8 @@
 			[inv retainArguments];
 			mInvocation = [inv retain];
 		} else {
-			[self autorelease];
-			self = nil;
+			[self release];
+			return nil;
 		}
 	}
 
@@ -1128,9 +1128,11 @@
 
 	// don't set the argument if the selector doesn't take one
 
-	if ([sig numberOfArguments] >= 3)
-		[inv setArgument:&object
+	if ([sig numberOfArguments] >= 3) {
+		__unsafe_unretained uuObj = object;
+		[inv setArgument:&uuObj
 				 atIndex:2];
+	}
 
 	self = [self initWithInvocation:inv];
 
@@ -1185,7 +1187,7 @@
 
 - (instancetype)init
 {
-	[self autorelease];
+	[self release];
 	return nil;
 }
 

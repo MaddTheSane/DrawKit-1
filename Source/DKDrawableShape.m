@@ -103,8 +103,6 @@ static NSSize sTempSavedOffset;
  */
 + (void)setInfoWindowBackgroundColour:(NSColor*)colour
 {
-	[colour retain];
-	[sInfoWindowColour release];
 	sInfoWindowColour = colour;
 }
 
@@ -166,7 +164,6 @@ static NSSize sTempSavedOffset;
 			if (curs != nil) {
 				[cursorCache setObject:curs
 								forKey:key];
-				[curs release];
 			}
 		} else {
 			// in the event of the image not being available, cache the arrow cursor
@@ -191,7 +188,7 @@ static NSSize sTempSavedOffset;
  */
 + (DKDrawableShape*)drawableShapeWithRect:(NSRect)aRect
 {
-	return [[[self alloc] initWithRect:aRect] autorelease];
+	return [[self alloc] initWithRect:aRect];
 }
 
 /** @brief Create an oval shape object with the rect given
@@ -203,7 +200,7 @@ static NSSize sTempSavedOffset;
  */
 + (DKDrawableShape*)drawableShapeWithOvalInRect:(NSRect)aRect
 {
-	return [[[self alloc] initWithOvalInRect:aRect] autorelease];
+	return [[self alloc] initWithOvalInRect:aRect];
 }
 
 /** @brief Create a shape object with the canonical path given
@@ -218,7 +215,7 @@ static NSSize sTempSavedOffset;
 	NSAssert(NSEqualRects([path bounds], [self unitRectAtOrigin]), @"path bounds must be canonical!");
 
 	DKDrawableShape* shape = [[self alloc] initWithCanonicalBezierPath:path];
-	return [shape autorelease];
+	return shape;
 }
 
 /** @brief Create a shape object with the path given
@@ -244,7 +241,7 @@ static NSSize sTempSavedOffset;
 {
 	DKDrawableShape* shape = [[self alloc] initWithBezierPath:path
 											   rotatedToAngle:angle];
-	return [shape autorelease];
+	return shape;
 }
 
 /** @brief Create a shape object with the given path and style
@@ -274,7 +271,7 @@ static NSSize sTempSavedOffset;
 	DKDrawableShape* shape = [[self alloc] initWithBezierPath:path
 											   rotatedToAngle:angle
 														style:aStyle];
-	return [shape autorelease];
+	return shape;
 }
 
 #pragma mark -
@@ -463,8 +460,6 @@ static NSSize sTempSavedOffset;
 									  selector:@selector(setPath:)
 										object:m_path];
 
-	[path retain];
-	[m_path release];
 	m_path = path;
 	[self notifyVisualChange];
 	[self notifyGeometryChange:oldBounds];
@@ -845,7 +840,6 @@ static NSSize sTempSavedOffset;
 
 	[self setAngle:0.0];
 	[self adoptPath:path];
-	[path release];
 }
 
 /** @brief Adjusts location and size so that the corners lie on grid intersections if possible
@@ -1513,8 +1507,6 @@ static NSSize sTempSavedOffset;
 - (void)setDistortionTransform:(DKDistortionTransform*)dt
 {
 	if (dt != m_distortTransform) {
-		[dt retain];
-		[m_distortTransform release];
 		m_distortTransform = dt;
 
 		[self notifyVisualChange];
@@ -1550,7 +1542,6 @@ static NSSize sTempSavedOffset;
 
 	[dp setUserInfo:[self userInfo]];
 
-	[path release];
 
 	return dp;
 }
@@ -1585,7 +1576,7 @@ static NSSize sTempSavedOffset;
 		}
 	}
 
-	return [newObjects autorelease];
+	return newObjects;
 }
 
 #pragma mark -
@@ -1612,10 +1603,8 @@ static NSSize sTempSavedOffset;
 	[layer addObject:po
 			 atIndex:myIndex];
 	[layer replaceSelectionWithObject:po];
-	[self retain];
 	[layer removeObject:self];
 	[layer commitSelectionUndoWithActionName:NSLocalizedString(@"Convert To Path", @"undo string for convert to path")];
-	[self release];
 }
 
 /** @brief Set the rotation angle to zero
@@ -1814,11 +1803,10 @@ static NSSize sTempSavedOffset;
 {
 	self = [super initWithStyle:aStyle];
 	if (self != nil) {
-		m_path = [[NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]] retain];
+		m_path = [NSBezierPath bezierPathWithRect:[[self class] unitRectAtOrigin]];
 
 		if (m_path == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;
@@ -2458,7 +2446,6 @@ static NSSize sTempSavedOffset;
 	} else
 		[self setSize:NSZeroSize];
 
-	[path release];
 }
 
 - (void)setStyle:(DKStyle*)aStyle
@@ -2558,7 +2545,7 @@ static NSSize sTempSavedOffset;
 		}
 	}
 
-	return [pts autorelease];
+	return pts;
 }
 
 /** @brief Return whether the object was valid following creation
@@ -2580,14 +2567,6 @@ static NSSize sTempSavedOffset;
 
 #pragma mark -
 #pragma mark As an NSObject
-- (void)dealloc
-{
-	[m_distortTransform release];
-	[m_customHotSpots release];
-	[m_path release];
-
-	[super dealloc];
-}
 
 #pragma mark -
 #pragma mark As part of NSCoding Protocol
@@ -2645,7 +2624,6 @@ static NSSize sTempSavedOffset;
 
 	DKDistortionTransform* dfm = [[self distortionTransform] copy];
 	[copy setDistortionTransform:dfm];
-	[dfm release];
 
 	[copy setAngle:[self angle]];
 	[copy setSize:[self size]];
@@ -2654,7 +2632,6 @@ static NSSize sTempSavedOffset;
 
 	NSArray* hots = [[self hotspots] deepCopy];
 	[copy setHotspots:hots];
-	[hots release];
 
 	return copy;
 }

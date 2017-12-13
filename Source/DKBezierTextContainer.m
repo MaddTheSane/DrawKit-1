@@ -21,8 +21,6 @@
 				  yBy:-pb.origin.y];
 	aPath = [tfm transformBezierPath:aPath];
 
-	[aPath retain];
-	[mPath release];
 	mPath = aPath;
 }
 
@@ -44,12 +42,6 @@
 	else
 		return [mPath lineFragmentRectForProposedRect:proposedRect
 										remainingRect:remainingRect];
-}
-
-- (void)dealloc
-{
-	[mPath release];
-	[super dealloc];
 }
 
 @end

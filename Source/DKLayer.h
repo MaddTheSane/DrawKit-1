@@ -124,7 +124,7 @@ indicate likely handling of drag and drop operations by a layer instance.
  @return the layer's group */
 - (DKLayerGroup*)layerGroup;
 
-@property (assign) DKLayerGroup *layerGroup;
+@property (weak) DKLayerGroup *layerGroup;
 
 /** @brief Gets the layer's index within the group that the layer is contained in
 

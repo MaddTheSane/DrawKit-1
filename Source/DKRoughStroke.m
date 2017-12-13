@@ -145,13 +145,6 @@
 #pragma mark -
 #pragma mark As a NSObject
 
-- (void)dealloc
-{
-	[mPathCache release];
-	[mCacheList release];
-	[super dealloc];
-}
-
 #pragma mark -
 #pragma mark As a GCObservableObject
 
@@ -172,7 +165,7 @@
 
 - (instancetype)initWithCoder:(NSCoder*)coder
 {
-	[super initWithCoder:coder];
+	if (!(self = [super initWithCoder:coder])) return nil;
 	mPathCache = [[NSMutableDictionary alloc] init];
 	mCacheList = [[NSMutableArray alloc] init];
 	[self setRoughness:[coder decodeDoubleForKey:@"DKRoughStroke_roughness"]];

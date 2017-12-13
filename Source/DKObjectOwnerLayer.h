@@ -83,7 +83,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (id<DKObjectStorage>)storage;
 
-@property (nonatomic, retain) id<DKObjectStorage> storage;
+@property (nonatomic, strong) id<DKObjectStorage> storage;
 
 // as a container for a DKDrawableObject:
 
@@ -94,7 +94,7 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (DKObjectOwnerLayer*)layer;
 
-@property (readonly, retain) DKObjectOwnerLayer *layer;
+@property (readonly, strong) DKObjectOwnerLayer *layer;
 
 // the list of objects:
 
@@ -190,8 +190,8 @@ because it's an all-or-nothing rendering proposition which direct drawing of a l
  */
 - (DKDrawableObject*)bottomObject;
 
-@property (readonly, retain) DKDrawableObject* topObject;
-@property (readonly, retain) DKDrawableObject* bottomObject;
+@property (readonly, strong) DKDrawableObject* topObject;
+@property (readonly, strong) DKDrawableObject* bottomObject;
 
 /** @brief Returns the stacking position of the given object
 

@@ -19,7 +19,7 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
 	NSTimer* mTimer;
 	NSTimeInterval mPeriod;
 	SEL mAction;
-	id mTarget;
+	__unsafe_unretained id mTarget;
 }
 
 + (DKRetriggerableTimer*)retriggerableTimerWithPeriod:(NSTimeInterval)period target:(id)target selector:(SEL)action;
@@ -31,7 +31,7 @@ Implements a one-shot timer that can be repeatedly extended (retriggered) preven
 - (void)retrigger;
 
 @property SEL action;
-@property (assign) id target;
+@property (unsafe_unretained) id target;
 - (void)setAction:(SEL)action;
 - (SEL)action;
 - (void)setTarget:(id)target;

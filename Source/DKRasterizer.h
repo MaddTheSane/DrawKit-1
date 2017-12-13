@@ -47,7 +47,7 @@ Renderers can now have a delegate attached which is able to modify behaviours su
  */
 - (void)setContainer:(DKRastGroup*)container;
 	
-@property (assign) DKRastGroup *container;
+@property (weak) DKRastGroup *container;
 
 /** @brief Set the name of the renderer
  

@@ -45,8 +45,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
 */
 @interface DKViewController : NSObject {
 @private
-	NSView* mViewRef; // weak ref to the view that is associated with this
-	DKDrawing* mDrawingRef; // weak ref to the drawing that owns this
+	NSView* __weak mViewRef; // weak ref to the view that is associated with this
+	DKDrawing* __weak mDrawingRef; // weak ref to the drawing that owns this
 	BOOL m_autoLayerSelect; // YES to allow mouse to activate layers automatically
 	BOOL mEnableDKMenus; // YES to enable all standard contextual menus provided by DK.
 @protected
@@ -382,8 +382,8 @@ completed except for page breaks. Tool controllers for example can draw selectio
  */
 - (void)setView:(NSView*)aView;
 
-@property (nonatomic, assign) DKDrawing *drawing;
-@property (nonatomic, assign) NSView *view;
+@property (nonatomic, weak) DKDrawing *drawing;
+@property (nonatomic, weak) NSView *view;
 
 @end
 

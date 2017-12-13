@@ -96,7 +96,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 @property DKVerticalTextAlignment verticalAlignment;
 @property CGFloat verticalAlignmentProportion;
-@property (retain) NSParagraphStyle *paragraphStyle;
+@property (strong) NSParagraphStyle *paragraphStyle;
 @property (readonly) NSTextAlignment alignment;
 
 // editing the text:
@@ -110,7 +110,7 @@ Very similar to a DKTextShape but based on a path and defaulting to text-on-a-pa
 
 - (DKTextAdornment*)textAdornment;
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
-@property (retain) DKTextAdornment *textAdornment;
+@property (strong) DKTextAdornment *textAdornment;
 
 // user actions:
 

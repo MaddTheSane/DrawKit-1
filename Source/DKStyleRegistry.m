@@ -29,7 +29,7 @@ NSString* kDKStyleWasEditedWhileRegisteredNotification = @"kDKStyleWasEditedWhil
 
 static NSInteger SortKeysByReferredName(id a, id b, void* contextInfo)
 {
-	DKStyleRegistry* reg = (DKStyleRegistry*)contextInfo;
+	DKStyleRegistry* reg = (__bridge DKStyleRegistry*)contextInfo;
 
 	// a and b are keys in the registry - order them by the name of the styles they reference
 
@@ -82,7 +82,7 @@ static BOOL s_NoDKDefaults = NO;
 		id appDelegate = [NSApp delegate];
 
 		if (appDelegate && [appDelegate respondsToSelector:@selector(applicationWillReturnStyleRegistry)])
-			s_styleRegistry = [[appDelegate applicationWillReturnStyleRegistry] retain];
+			s_styleRegistry = [appDelegate applicationWillReturnStyleRegistry];
 
 		// if still nil, make a default one
 
@@ -802,8 +802,6 @@ static BOOL s_NoDKDefaults = NO;
 
 				readOK = YES;
 			}
-
-			[regTemp release];
 		}
 	}
 
@@ -853,8 +851,6 @@ static BOOL s_NoDKDefaults = NO;
 				
 				readOK = YES;
 			}
-			
-			[regTemp release];
 		}
 	}
 	
@@ -1032,7 +1028,7 @@ static BOOL s_NoDKDefaults = NO;
 
 	NSArray* keys = [self allKeysInCategory:catName];
 	return [keys sortedArrayUsingFunction:SortKeysByReferredName
-								  context:self];
+								  context:(__bridge void * _Nullable)(self)];
 }
 
 /** @brief Return all of the names in a given category, sorted into some useful order
@@ -1086,7 +1082,6 @@ static BOOL s_NoDKDefaults = NO;
 				[[NSGraphicsContext currentContext] setImageInterpolation:NSImageInterpolationLow];
 				[swatch unlockFocus];
 				[item setImage:swatch];
-				[swatch release];
 			}
 
 			// set the menu item to the object's name
@@ -1103,7 +1098,6 @@ static BOOL s_NoDKDefaults = NO;
 - (void)dealloc
 {
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
-	[super dealloc];
 }
 
 @end
@@ -1114,8 +1108,7 @@ static BOOL s_NoDKDefaults = NO;
 
 - (void)reassignUniqueKey
 {
-	[m_uniqueKey release];
-	m_uniqueKey = [[DKUniqueID uniqueKey] retain];
+	m_uniqueKey = [DKUniqueID uniqueKey];
 }
 
 @end

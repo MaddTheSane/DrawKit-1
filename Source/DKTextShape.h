@@ -264,7 +264,7 @@ Text shapes are shapes that draw text.
  */
 - (NSFont*)font;
 
-@property (retain) NSFont *font;
+@property (strong) NSFont *font;
 
 /** @brief Sets the text's font size, if permitted
 
@@ -282,7 +282,7 @@ Text shapes are shapes that draw text.
 - (NSColor*)textColour;
 
 @property CGFloat fontSize;
-@property (retain) NSColor *textColour;
+@property (strong) NSColor *textColour;
 
 - (void)scaleTextBy:(CGFloat)factor;
 
@@ -321,7 +321,7 @@ Text shapes are shapes that draw text.
 - (void)setTextAdornment:(DKTextAdornment*)adornment;
 
 @property (readonly, getter=isEditing) BOOL editing;
-@property (retain) DKTextAdornment *textAdornment;
+@property (strong) DKTextAdornment *textAdornment;
 
 // user actions:
 

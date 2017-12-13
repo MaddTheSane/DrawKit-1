@@ -39,8 +39,6 @@ static NSArray* s_selectionColours = nil;
  */
 + (void)setSelectionColours:(NSArray*)listOfColours
 {
-	[listOfColours retain];
-	[s_selectionColours release];
 	s_selectionColours = listOfColours;
 }
 
@@ -333,8 +331,6 @@ static NSArray* s_selectionColours = nil;
 
 		[[[self undoManager] prepareWithInvocationTarget:self] setSelectionColour:[self selectionColour]];
 
-		[colour retain];
-		[m_selectionColour release];
 		m_selectionColour = colour;
 		[self setNeedsDisplay:YES];
 
@@ -412,7 +408,7 @@ static NSArray* s_selectionColours = nil;
 
 	[thumb unlockFocus];
 
-	return [thumb autorelease];
+	return thumb;
 }
 
 - (NSImage*)thumbnail
@@ -437,7 +433,7 @@ static NSArray* s_selectionColours = nil;
 	[[self drawing] addController:vc];
 
 	NSData* pdfData = [pdfView dataWithPDFInsideRect:frame];
-	[pdfView release]; // removes the controller
+	 // removes the controller
 
 	return pdfData;
 }
@@ -517,7 +513,7 @@ static NSArray* s_selectionColours = nil;
 
 	RESTORE_GRAPHICS_CONTEXT
 
-	return [rep autorelease];
+	return rep;
 }
 
 /** @brief Sets whether drawing is limited to the interior area or not
@@ -703,7 +699,6 @@ static NSArray* s_selectionColours = nil;
 
 		NSString* nameCopy = [name copy];
 
-		[m_name release];
 		m_name = nameCopy;
 
 		LogEvent_(kStateEvent, @"layer's name was set to '%@'", m_name);
@@ -736,8 +731,6 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setUserInfo:(NSMutableDictionary*)info
 {
-	[info retain];
-	[mUserInfo release];
 	mUserInfo = info;
 }
 
@@ -754,7 +747,6 @@ static NSArray* s_selectionColours = nil;
 	NSDictionary* deepCopy = [info deepCopy];
 
 	[mUserInfo addEntriesFromDictionary:deepCopy];
-	[deepCopy release];
 }
 
 /** @brief Return the attached user info
@@ -1026,8 +1018,6 @@ static NSArray* s_selectionColours = nil;
  */
 - (void)setKnobs:(DKKnob*)knobs
 {
-	[knobs retain];
-	[m_knobs release];
 	m_knobs = knobs;
 
 	[m_knobs setOwner:self];
@@ -1157,7 +1147,7 @@ static NSArray* s_selectionColours = nil;
 - (void)showInfoWindowWithString:(NSString*)str atPoint:(NSPoint)p
 {
 	if (m_infoWindow == nil) {
-		m_infoWindow = [[GCInfoFloater infoFloater] retain];
+		m_infoWindow = [GCInfoFloater infoFloater];
 		[m_infoWindow setFormat:nil];
 		[m_infoWindow setBackgroundColor:[self selectionColour]];
 		[m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
@@ -1175,7 +1165,7 @@ static NSArray* s_selectionColours = nil;
 - (void)setInfoWindowBackgroundColour:(NSColor*)colour
 {
 	if (m_infoWindow == nil) {
-		m_infoWindow = [[GCInfoFloater infoFloater] retain];
+		m_infoWindow = [GCInfoFloater infoFloater];
 		[m_infoWindow setFormat:nil];
 		[m_infoWindow setBackgroundColor:[self selectionColour]];
 		[m_infoWindow setWindowOffset:NSMakeSize(6, 10)];
@@ -1299,14 +1289,6 @@ static NSArray* s_selectionColours = nil;
 
 	[[NSNotificationCenter defaultCenter] removeObserver:self];
 	[[self undoManager] removeAllActionsWithTarget:self];
-
-	[m_infoWindow release];
-	[m_knobs release];
-	[m_selectionColour release];
-	[m_name release];
-	[mUserInfo release];
-	[mLayerUniqueKey release];
-	[super dealloc];
 }
 
 /** @brief Designated initializer for base class of all layers
@@ -1321,7 +1303,7 @@ static NSArray* s_selectionColours = nil;
 		[self setKnobsShouldAdustToViewScale:YES];
 		[self setShouldDrawToPrinter:YES];
 		[self setSelectionColour:[[self class] selectionColourForIndex:sLayerIndexSeed++]];
-		mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
+		mLayerUniqueKey = [DKUniqueID uniqueKey];
 		mRulerMarkersEnabled = YES;
 		mAlpha = 1.0;
 	}
@@ -1395,7 +1377,7 @@ static NSArray* s_selectionColours = nil;
 		[self setClipsDrawingToInterior:[coder decodeBoolForKey:@"DKLayer_clipToInterior"]];
 		[self setUserInfo:[coder decodeObjectForKey:@"DKLayer_userInfo"]];
 
-		mLayerUniqueKey = [[DKUniqueID uniqueKey] retain];
+		mLayerUniqueKey = [DKUniqueID uniqueKey];
 
 		// alpha was added in 1.0.7 - if not present, default to 1.0
 
@@ -1461,7 +1443,6 @@ static NSArray* s_selectionColours = nil;
 												  action:[anItem action]
 										   keyEquivalent:@""];
 	BOOL oldResult = [self validateMenuItem:temp];
-	[temp release];
 
 	return oldResult;
 }

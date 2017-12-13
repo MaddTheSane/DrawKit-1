@@ -14,6 +14,7 @@
 #import "LogEvent.h"
 #import "NSAffineTransform+DKAdditions.h"
 #import "DKUndoManager.h"
+#import "DKToolController.h"
 
 @interface DKSelectAndEditTool (Private)
 

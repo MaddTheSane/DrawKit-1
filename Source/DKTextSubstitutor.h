@@ -35,7 +35,7 @@ This objects abstracts the text substitution task used by text adornments, et. a
 
 - (void)setMasterString:(NSAttributedString*)master;
 - (NSAttributedString*)masterString;
-@property (retain) NSAttributedString *masterString;
+@property (strong) NSAttributedString *masterString;
 
 - (void)setString:(NSString*)aString withAttributes:(NSDictionary*)attrs;
 - (NSString*)string;
@@ -43,7 +43,7 @@ This objects abstracts the text substitution task used by text adornments, et. a
 
 - (void)setAttributes:(NSDictionary*)attrs;
 - (NSDictionary*)attributes;
-@property (retain) NSDictionary *attributes;
+@property (strong) NSDictionary *attributes;
 
 - (void)processMasterString;
 - (NSArray*)allKeys;

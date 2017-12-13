@@ -33,7 +33,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 {
 	DKLayerGroup* lg = [[self alloc] initWithLayers:layers];
 
-	return [lg autorelease];
+	return lg;
 }
 
 #pragma mark -
@@ -48,11 +48,10 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 {
 	self = [super init];
 	if (self != nil) {
-		m_layers = [[NSMutableArray arrayWithCapacity:4] retain];
+		m_layers = [NSMutableArray arrayWithCapacity:4];
 
 		if (m_layers == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	if (self != nil) {
@@ -82,7 +81,6 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 
 		[m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
 								  withObject:nil];
-		[m_layers release];
 		m_layers = [layers mutableCopy];
 
 		// this is to ensure the group member is inited - older files didn't save the group ref so it will be nil
@@ -215,7 +213,6 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		DKLayer* layer = [[layerClass alloc] init];
 
 		[self addLayer:layer];
-		[layer release]; // retained by self
 
 		return layer;
 	} else
@@ -569,7 +566,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
  */
 - (DKLayer*)layerWithUniqueKey:(NSString*)key
 {
-	for (DKLayer* layer in [self layers]) {
+	for (__strong DKLayer* layer in [self layers]) {
 		if ([[layer uniqueKey] isEqualToString:key])
 			return layer;
 		else if ([layer isKindOfClass:[self class]]) {
@@ -795,11 +792,9 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 			[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupWillReorderLayers
 																object:self];
 
-			[aLayer retain];
 			[m_layers removeObject:aLayer];
 			[m_layers insertObject:aLayer
 						   atIndex:i];
-			[aLayer release];
 
 			[self setNeedsDisplay:YES];
 			[[NSNotificationCenter defaultCenter] postNotificationName:kDKLayerGroupDidReorderLayers
@@ -968,7 +963,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		}
 	}
 
-	return [unionOfAllStyles autorelease];
+	return unionOfAllStyles;
 }
 
 /** @brief Return all of registered styles used by the layers in this group
@@ -996,7 +991,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		}
 	}
 
-	return [unionOfAllStyles autorelease];
+	return unionOfAllStyles;
 }
 
 /** @brief Substitute styles with those in the given set
@@ -1019,8 +1014,6 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 
 	[m_layers makeObjectsPerformSelector:@selector(setLayerGroup:)
 							  withObject:nil];
-	[m_layers release];
-	[super dealloc];
 }
 
 - (instancetype)init
@@ -1080,8 +1073,7 @@ NSString* kDKLayerGroupDidReorderLayers = @"kDKLayerGroupDidReorderLayers";
 		}
 
 		if (m_layers == nil) {
-			[self autorelease];
-			self = nil;
+			return nil;
 		}
 	}
 	return self;

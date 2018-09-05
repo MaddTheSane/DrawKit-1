@@ -55,9 +55,13 @@
 												   effectiveRange:NULL] objectForKey:NSFontAttributeName];
 
 					[temp moveToPoint:ploc];
-					[temp appendBezierPathWithGlyph:[self glyphAtIndex:g]
-											 inFont:font];
-
+					if (@available(macOS 10.13, *)) {
+						[temp appendBezierPathWithCGGlyph:[self CGGlyphAtIndex:g]
+												   inFont:font];
+					} else {
+						[temp appendBezierPathWithGlyph:[self glyphAtIndex:g]
+												 inFont:font];
+					}
 					// need to vertically flip and offset each glyph as it is created. The glyph is flipped around its given location to
 					// ensure that any unusual baseline requirements are taken into consideration.
 

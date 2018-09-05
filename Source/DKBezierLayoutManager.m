@@ -104,8 +104,6 @@
 */
 }
 
-#if 0
-//TODO: implement this properly!
 - (void)showCGGlyphs:(const CGGlyph *)glyphs
 		   positions:(const NSPoint *)positions
 			   count:(NSUInteger)glyphCount
@@ -114,22 +112,30 @@
 		  attributes:(NSDictionary<NSAttributedStringKey,id> *)attributes
 		   inContext:(NSGraphicsContext *)graphicsContext
 {
-	[mPath moveToPoint:positions[1]];
+#pragma unused(attributes)
+
+	[NSGraphicsContext saveGraphicsState];
+	NSGraphicsContext.currentContext = graphicsContext;
+	NSBezierPath *newPath = [NSBezierPath bezierPath];
 	if (@available(macOS 10.13, *)) {
-		[mPath appendBezierPathWithCGGlyphs:glyphs count:glyphCount inFont:font];
-	} else {
-		NSPoint pos = NSZeroPoint;
 		for (NSUInteger i = 0; i < glyphCount; i++) {
+			[newPath moveToPoint:positions[i]];
+			CGGlyph currentGlyph = glyphs[i];
+			[newPath appendBezierPathWithCGGlyph:currentGlyph inFont:font];
+		}
+	} else {
+		for (NSUInteger i = 0; i < glyphCount; i++) {
+			[newPath moveToPoint:positions[i]];
 			CGGlyph currentGlyph = glyphs[i];
 			NSGlyph theGlyph = currentGlyph;
-			NSSize offset = [font advancementForGlyph:theGlyph];
-			[mPath appendBezierPathWithGlyph:theGlyph inFont:font];
-			pos.x += offset.width;
-			pos.y += offset.height;
-			[mPath moveToPoint:pos];
+			[newPath appendBezierPathWithGlyph:theGlyph inFont:font];
 		}
 	}
-	[mPath transformUsingAffineTransform:textMatrix];
+	// Commenting out the following line makes the text the right side, but flipped.
+	// TODO: flip it but have it be the right size.
+	[newPath transformUsingAffineTransform:textMatrix];
+	[mPath appendBezierPath:newPath];
+	[NSGraphicsContext restoreGraphicsState];
 	
 	// debug:
 	/*
@@ -138,7 +144,6 @@
 	 [mPath stroke];
 	 */
 }
-#endif
 
 - (void)drawUnderlineForGlyphRange:(NSRange)glyphRange
 					 underlineType:(NSUnderlineStyle)underlineVal

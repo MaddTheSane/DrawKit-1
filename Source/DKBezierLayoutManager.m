@@ -84,26 +84,6 @@
 #pragma mark -
 #pragma mark - as a NSLayoutManager
 
-- (void)showPackedGlyphs:(char*)glyphs length:(NSUInteger)glyphLen
-			  glyphRange:(NSRange)glyphRange
-				 atPoint:(NSPoint)point
-					font:(NSFont*)font
-				   color:(NSColor*)color
-	  printingAdjustment:(NSSize)printingAdjustment
-{
-#pragma unused(glyphLen, glyphRange, font, color, printingAdjustment)
-
-	[mPath moveToPoint:point];
-	[mPath appendBezierPathWithPackedGlyphs:glyphs];
-
-	// debug:
-	/*
-	[mPath setLineWidth:1.0];
-	[[NSColor blackColor] set];
-	[mPath stroke];
-*/
-}
-
 - (void)showCGGlyphs:(const CGGlyph *)glyphs
 		   positions:(const NSPoint *)positions
 			   count:(NSUInteger)glyphCount

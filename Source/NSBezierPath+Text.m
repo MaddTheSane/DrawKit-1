@@ -49,6 +49,9 @@ static NSString* kDKTextOnPathTextFittedCacheKey = @"DKTextOnPathTextFitted";
 		[topLayoutMgr setUsesScreenFonts:NO];
 	}
 
+	// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+	[topLayoutMgr setBackgroundLayoutEnabled:[NSThread isMainThread]];
+	
 	return topLayoutMgr;
 }
 
@@ -574,6 +577,9 @@ static NSDictionary* s_TOPTextAttributes = nil;
 		// layout without superscripts and subscripts:
 
 		NSLayoutManager* tempLM = [[NSLayoutManager alloc] init];
+		// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+		[tempLM setBackgroundLayoutEnabled:[NSThread isMainThread]];
+		
 		[tempLM addTextContainer:[[lm textContainers] lastObject]];
 		NSTextStorage* tempStr = [[NSTextStorage alloc] initWithAttributedString:str];
 		[tempStr removeAttribute:NSSuperscriptAttributeName
@@ -782,6 +788,8 @@ static NSDictionary* s_TOPTextAttributes = nil;
 	NSTextStorage* subString = [[NSTextStorage alloc] initWithAttributedString:[str attributedSubstringFromRange:range]];
 
 	DKBezierLayoutManager* lm = [[DKBezierLayoutManager alloc] init];
+	// Thread safety in case we are not on the main thread, per https://developer.apple.com/documentation/uikit/nslayoutmanager
+	[lm setBackgroundLayoutEnabled:[NSThread isMainThread]];
 	NSTextContainer* btc = [[NSTextContainer alloc] initWithContainerSize:NSMakeSize(1.0e6, 1.0e6)];
 	[lm addTextContainer:btc];
 	[subString setAlignment:NSLeftTextAlignment

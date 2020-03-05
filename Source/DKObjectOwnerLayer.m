@@ -497,7 +497,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 - (void)removeAllObjects
 {
 	if (![self lockedOrHidden] && [self countOfObjects] > 0) {
-		NSIndexSet* allIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfObjects] - 1)];
+		NSIndexSet* allIndexes = [NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, [self countOfObjects])];
 		[self removeObjectsAtIndexes:allIndexes];
 	}
 }
@@ -939,7 +939,7 @@ static DKLayerCacheOption sDefaultCacheOption = kDKLayerCacheNone;
 
 	LogEvent_(kUserEvent, @"hit-testing %lu objects; layer = %@; objects = %@", (unsigned long)[objects count], self, objects);
 
-	for (DKDrawableObject* o in objects) {
+	for (DKDrawableObject* o in [objects reverseObjectEnumerator]) {
 		partcode = [o hitPart:point];
 
 		if (partcode != kDKDrawingNoPart) {

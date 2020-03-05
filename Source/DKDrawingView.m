@@ -109,10 +109,8 @@ NSString* const kDKTextEditorUndoesTypingPrefsKey = @"kDKTextEditorUndoesTyping"
 
 + (void)pop
 {
-	NSUInteger stackSize = [sDrawingViewStack count];
-
-	if (stackSize > 0)
-		[sDrawingViewStack removeObjectAtIndex:stackSize - 1];
+	if ([sDrawingViewStack count] > 0)
+		[sDrawingViewStack removeObjectAtIndex:[sDrawingViewStack count] - 1];
 
 	//NSLog(@"popping %@", [self currentlyDrawingView]);
 }
@@ -481,14 +479,16 @@ static Class s_textEditorClass = Nil;
 
 	// editor's frame is expanded by five points to ensure all characters are visible when not using screen fonts
 	// container text inset is set to compensate for this.
-
-	NSRect editorFrame = NSInsetRect(rect, -5, -5);
+	
+	// spiderr - this was removed as lineFragmentPadding should adjust for this,
+	// and insetting dramatically changes display and editing display. This causing inconsistent wrapping
+	//	NSRect editorFrame = NSInsetRect(rect, -5, -5);
 
 	if (m_textEditViewRef == nil)
-		m_textEditViewRef = [[[[self class] classForTextEditor] alloc] initWithFrame:editorFrame];
+		m_textEditViewRef = [[[[self class] classForTextEditor] alloc] initWithFrame:rect];
 	else {
 		[m_textEditViewRef setDelegate:nil];
-		[m_textEditViewRef setFrame:editorFrame];
+		[m_textEditViewRef setFrame:rect];
 		[m_textEditViewRef setSelectedRange:NSMakeRange(0, 0)];
 	}
 
@@ -521,7 +521,7 @@ static Class s_textEditorClass = Nil;
 	[m_textEditViewRef setSelectedRange:NSMakeRange(0, [text length])];
 	[m_textEditViewRef setDelegate:del];
 	[m_textEditViewRef setNextResponder:self];
-	[m_textEditViewRef setTextContainerInset:NSMakeSize(5, 5)];
+	[m_textEditViewRef setTextContainerInset:NSMakeSize(0, 0)];
 
 	// if smart quotes is supported, set the editor to use the current preference. This feature requires 10.5 or later
 
@@ -1033,6 +1033,8 @@ static Class s_textEditorClass = Nil;
 
 - (void)viewWillDraw
 {
+	// if at the point where the view is asked to draw something, if there is no "back end", it creates one
+	// automatically on the basis of its current bounds. In this case, the view owns the drawing. This is done here rather than in -drawRect:
 	if ([self drawing] == nil)
 		[self createAutomaticDrawing];
 	

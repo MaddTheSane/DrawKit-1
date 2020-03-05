@@ -1031,6 +1031,14 @@ static Class s_textEditorClass = Nil;
 	return [super lockFocusIfCanDraw];
 }
 
+- (void)viewWillDraw
+{
+	if ([self drawing] == nil)
+		[self createAutomaticDrawing];
+	
+	[super viewWillDraw];
+}
+
 #pragma mark -
 #pragma mark As an NSResponder
 
